@@ -1,5 +1,7 @@
 # U^2-Net HTTP
 
+Visit: https://github.com/cyrildiagne/u2net-http
+
 This is an HTTP service wrapper of the model: [U^2-Net: Going Deeper with Nested U-Structure for Salient Object Detection](https://github.com/NathanUA/U-2-Net) (Qin et al, Pattern Recognition 2020)
 
 The deploy folder contains configuration files for deployment as serverless container with Knative.

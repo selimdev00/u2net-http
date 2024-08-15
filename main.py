@@ -20,41 +20,55 @@ CORS(app)
 # Simple probe.
 @app.route('/', methods=['GET'])
 def hello():
-    return 'Hello U^2-Net!'
-
+    print('something went wrong!')
+    return 'Hello U^2-Net! fuick u'
 
 # Route http posts to this method
 @app.route('/', methods=['POST'])
 def run():
-    start = time.time()
+    logging.info('something')
 
-    # Convert string of image data to uint8
-    if 'data' not in request.files:
-        return jsonify({'error': 'missing file param `data`'}), 400
-    data = request.files['data'].read()
-    if len(data) == 0:
-        return jsonify({'error': 'empty image'}), 400
+    try:
+        start = time.time()
 
-    # Convert string data to PIL Image
-    img = Image.open(io.BytesIO(data))
+        logging.info(f'Completed in {time.time() - start:.2f}s')
 
-    # Ensure i,qge size is under 1024
-    if img.size[0] > 1024 or img.size[1] > 1024:
-        img.thumbnail((1024, 1024))
+        # Convert string of image data to uint8
+        if 'data' not in request.files:
+            return jsonify({'error': 'missing file param `data`'}), 400
+        data = request.files['data'].read()
+        if len(data) == 0:
+            return jsonify({'error': 'empty image'}), 400
 
-    # Process Image
-    res = u2net.run(np.array(img))
+        # Convert string data to PIL Image
+        img = Image.open(io.BytesIO(data))
 
-    # Save to buffer
-    buff = io.BytesIO()
-    res.save(buff, 'PNG')
-    buff.seek(0)
+        logging.info(img.size)
 
-    # Print stats
-    logging.info(f'Completed in {time.time() - start:.2f}s')
+        # Ensure i,qge size is under 1024
+        if img.size[0] > 1024 or img.size[1] > 1024:
+            img.thumbnail((1024, 1024))
 
-    # Return data
-    return send_file(buff, mimetype='image/png')
+        logging.info(u2net)
+
+        # Process Image
+        res = u2net.run(np.array(img))
+
+        logging.info(res)
+
+        # Save to buffer
+        buff = io.BytesIO()
+        res.save(buff, 'PNG')
+        buff.seek(0)
+
+        # Print stats
+        logging.info(f'Completed in {time.time() - start:.2f}s')
+
+        # Return data
+        return send_file(buff, mimetype='image/png')
+    except Exception as e:
+        logging.info('something')
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

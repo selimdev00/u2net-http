@@ -1,5 +1,6 @@
 import sys
 sys.path.insert(0, 'U-2-Net')
+import logging
 
 from skimage import io, transform
 import torch
@@ -25,7 +26,7 @@ model_dir = './U-2-Net/saved_models/u2net/u2net.pth'
 
 print("Loading U-2-Net...")
 net = U2NET(3, 1)
-net.load_state_dict(torch.load(model_dir))
+net.load_state_dict(torch.load(model_dir, map_location='cpu'))
 if torch.cuda.is_available():
     net.cuda()
 net.eval()

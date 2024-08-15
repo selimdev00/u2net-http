@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  u2net-service:
+    build: .
+    image: u2net:latest
+    container_name: u2net-container
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/app/
+    environment:
+      - PORT=80

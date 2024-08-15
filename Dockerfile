@@ -7,18 +7,9 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-# Copy U-2-Net.
-COPY U-2-Net ./U-2-Net
-
-# Copy Resnet.
-COPY resnet34-333f7ec4.pth /root/.torch/models/resnet34-333f7ec4.pth
-
 # Install production dependencies.
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy local code to the container image.
-COPY *.py ./
 
 # Set default port.
 ENV PORT 80

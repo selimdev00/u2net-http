@@ -20,18 +20,13 @@ CORS(app)
 # Simple probe.
 @app.route('/', methods=['GET'])
 def hello():
-    print('something went wrong!')
-    return 'Hello U^2-Net! fuick u'
+    return 'hello world!'
 
 # Route http posts to this method
 @app.route('/', methods=['POST'])
 def run():
-    logging.info('something')
-
     try:
         start = time.time()
-
-        logging.info(f'Completed in {time.time() - start:.2f}s')
 
         # Convert string of image data to uint8
         if 'data' not in request.files:
@@ -48,8 +43,6 @@ def run():
         # Ensure i,qge size is under 1024
         if img.size[0] > 1024 or img.size[1] > 1024:
             img.thumbnail((1024, 1024))
-
-        logging.info(u2net)
 
         # Process Image
         res = u2net.run(np.array(img))
